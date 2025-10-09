@@ -4,10 +4,14 @@ const ProductsService = require('./../services/product.service');
 const service = new ProductsService();
 
 router.get('/', async (req, res) => {
-  const { size } = req.query;
-  const limit = size ? Number(size) : service.find().length;
-  const products = await service.find();
-  res.json(products.slice(0, limit));
+  try {
+    const { size } = req.query;
+    const limit = size ? Number(size) : service.find().length;
+    const products = await service.find();
+    res.json(products.slice(0, limit));
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get('/:id', async (req, res) => {

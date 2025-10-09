@@ -1,3 +1,5 @@
+const boom = require('@hapi/boom');
+
 class ProductsService {
   constructor() {
     this.products = [];
@@ -9,7 +11,7 @@ class ProductsService {
       {
         id: 'IS314AR3',
         selected: false,
-        available: true,
+        available: false,
         family: 'Lenovo Ideapad',
         shortSerie: 'Ideapad',
         title: 'Slim 3 14 AMD R3',
@@ -243,21 +245,28 @@ class ProductsService {
   }
 
   findOne(id) {
-    return this.products.find((item) => item.id === id);
+    const product = this.products.find((item) => item.id === id);
+    if (!product) {
+      throw boom.notFound('Product not found');
+    }
+    if (!product.available) {
+      throw boom.conflict('Product is unavailable');
+    }
+    return product;
   }
 
   update(id, changes) {
     const index = this.products.findIndex((item) => item.id === id);
     if (index === -1) {
-      throw new Error('Product not found');
+      throw boom.notFound('Product not found');
     }
     if ('id' in changes) {
-      throw new Error('Cannot change the id property');
+      throw boom.badRequest('Cannot change the id property');
     }
     const product = this.products[index];
     for (const key in changes) {
       if (!(key in product)) {
-        throw new Error(`Property "${key}" does not exist`);
+        throw boom.badRequest(`Property "${key}" does not exist`);
       }
       product[key] = changes[key];
     }
@@ -267,7 +276,7 @@ class ProductsService {
   delete(id) {
     const index = this.products.findIndex((item) => item.id === id);
     if (index === -1) {
-      throw new Error('Product not found');
+      throw boom.notFound('Product not found');
     }
     const deletedProduct = this.products[index];
     this.products.splice(index, 1);
@@ -279,7 +288,7 @@ class ProductsService {
 
   deleteMany(ids) {
     if (!Array.isArray(ids)) {
-      throw new Error('ids must be an array');
+      throw boom.badRequest('ids must be an array');
     }
     const deleted = [];
     ids.forEach((id) => {
