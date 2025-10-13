@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const id = Joi.string();
+const id = Joi.string().min(6);
 const selected = Joi.boolean();
 const available = Joi.boolean();
 const family = Joi.string();
