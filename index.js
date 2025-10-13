@@ -1,4 +1,6 @@
+require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const {
   logErrors,
@@ -7,6 +9,18 @@ const {
 } = require('./middelwares/error.handler');
 const port = 5555;
 const routerApi = require('./routes');
+
+const whitelist = process.env.CORS_WHITELIST ? process.env.CORS_WHITELIST.split(',') : [];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+app.use(cors(corsOptions));
 
 //middleware recibir json
 app.use(express.json());
