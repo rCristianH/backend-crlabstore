@@ -1,18 +1,22 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const app = express();
+const routerApi = require('./routes');
+
 const {
   logErrors,
   errorHandler,
   boomErrorHandler,
-} = require('./api/middelwares/error.handler');
-const port = process.env.PORT || 5555;
-const routerApi = require('./api/routes');
+} = require('./middlewares/error.handler');
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+//middleware recibir json
+app.use(express.json());
 
 const whitelist = process.env.CORS_WHITELIST
   ? process.env.CORS_WHITELIST.split(',')
-  : [];
+  : ['http://localhost:3000'];
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || whitelist.includes(origin)) {
@@ -24,11 +28,8 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-//middleware recibir json
-app.use(express.json());
-
 app.get('/api', (req, res) => {
-  res.redirect('/new-route');
+  res.redirect('/api/new-route');
 });
 
 app.get('/api/new-route', (req, res) => {
@@ -36,8 +37,11 @@ app.get('/api/new-route', (req, res) => {
 });
 
 routerApi(app);
+
 app.use(logErrors);
 app.use(boomErrorHandler);
 app.use(errorHandler);
 
-app.listen(port, () => {});
+app.listen(port, () => {
+  console.log('hola' + port);
+});

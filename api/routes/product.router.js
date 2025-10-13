@@ -1,5 +1,4 @@
 const express = require('express');
-const router = express.Router();
 const ProductsService = require('./../services/product.service');
 const validatorHandler = require('../middelwares/validator.handler');
 const {
@@ -7,6 +6,7 @@ const {
   updateProductSchema,
   getProductSchema,
 } = require('../schemas/product.schema');
+const router = express.Router();
 const service = new ProductsService();
 
 router.get('/', async (req, res) => {
