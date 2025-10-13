@@ -7,7 +7,7 @@ const {
   errorHandler,
   boomErrorHandler,
 } = require('./middelwares/error.handler');
-const port = 5555;
+const port = process.env.port || 3000;
 const routerApi = require('./routes');
 
 const whitelist = process.env.CORS_WHITELIST ? process.env.CORS_WHITELIST.split(',') : [];
