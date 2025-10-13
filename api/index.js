@@ -25,11 +25,11 @@ app.use(cors(corsOptions));
 //middleware recibir json
 app.use(express.json());
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.redirect('/new-route');
 });
 
-app.get('/new-route', (req, res) => {
+app.get('/api/new-route', (req, res) => {
   res.send('this is a new endpoint');
 });
 
