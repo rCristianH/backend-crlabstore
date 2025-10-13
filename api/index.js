@@ -7,19 +7,17 @@ const {
   errorHandler,
   boomErrorHandler,
 } = require('./middlewares/error.handler');
-
 const app = express();
 const port = process.env.PORT || 3000;
 
-//middleware recibir json
 app.use(express.json());
 
 const whitelist = process.env.CORS_WHITELIST
   ? process.env.CORS_WHITELIST.split(',')
   : ['http://localhost:3000'];
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || whitelist.includes(origin)) {
+  origin: (origin, callback) => {
+    if (whitelist.includes(origin) || !origin) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -43,5 +41,5 @@ app.use(boomErrorHandler);
 app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log('hola' + port);
+  console.log(port);
 });

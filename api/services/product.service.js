@@ -239,12 +239,12 @@ class ProductsService {
   }
 
   find() {
-    return new Promise((resolve, reject) => {
-      return this.products;
+    return new Promise((resolve) => {
+      resolve(this.products);
     });
   }
 
-  findOne(id) {
+  async findOne(id) {
     const product = this.products.find((item) => item.id === id);
     if (!product) {
       throw boom.notFound('Product not found');
@@ -255,7 +255,7 @@ class ProductsService {
     return product;
   }
 
-  update(id, changes) {
+  async update(id, changes) {
     const index = this.products.findIndex((item) => item.id === id);
     if (index === -1) {
       throw boom.notFound('Product not found');
@@ -273,7 +273,7 @@ class ProductsService {
     return product;
   }
 
-  delete(id) {
+  async delete(id) {
     const index = this.products.findIndex((item) => item.id === id);
     if (index === -1) {
       throw boom.notFound('Product not found');
