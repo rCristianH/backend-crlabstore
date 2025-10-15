@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      - DATABASE_HOST=127.0.0.1
+      - POSTGRES_DB=crlab-store
+      - POSTGRES_USER=nebula
+      - POSTGRES_PASSWORD=changepassword
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres_data:/var/lib/postgressql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=ccrhdbj@outlook.com
+      - PGADMIN_DEFAULT_PASSWORD=changepassword
+    ports:
+      - 5050:80
