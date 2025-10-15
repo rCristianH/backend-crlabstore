@@ -31,7 +31,7 @@ app.get('/api', (req, res) => {
 });
 
 app.get('/api/new-route', (req, res) => {
-  res.send('this is a new endpoint');
+  res.send('Nothing for here!');
 });
 
 routerApi(app);

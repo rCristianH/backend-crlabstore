@@ -233,7 +233,7 @@ class ProductsService {
     this.products = ideapads;
   }
 
-  create(body) {
+  async create(body) {
     this.products.push(body);
     return body;
   }
@@ -286,7 +286,7 @@ class ProductsService {
     };
   }
 
-  deleteMany(ids) {
+  async deleteMany(ids) {
     if (!Array.isArray(ids)) {
       throw boom.badRequest('ids must be an array');
     }
